@@ -1,0 +1,27 @@
+	value	unit
+start	41.0	mm
+end	31.0	mm
+vel	0.1	mmps
+step	0.005	mm
+wait	1.0	tcons
+fast	False	
+sens	20.0	nA
+tcons	30.0	ms
+freq	997.0	Hz
+setup	S2200P	
+hum	5.0	%
+temp	300.0	K
+emit	M41	
+vbias	30.0	V
+pumppow	10.0	mW
+detec	B16	
+probpol		°
+probpow	10.0	mW
+pol1	0°T1	
+pol2	-45°T3	
+pol3	0°T0	
+sample	air	
+obs	HAH	
+no	20nA	
+smin	-1.5	nA
+smax	1.5	nA

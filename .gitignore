@@ -1,0 +1,9 @@
+*.pyc
+*.ipynb
+*.txt
+*.bat
+
+!prefs.txt
+
+# Folders
+output/
