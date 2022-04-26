@@ -18,6 +18,10 @@ class VISAInstrument:
     def instr(self): return self._instr
     @property
     def widget(self): return self._widget
+    @property
+    def idn(self):
+        if self.instr: return self.instr.query('*IDN?')
+        else:          return "No instrument"
 
     def create_widget(self, frame):
         rm = pv.ResourceManager()
@@ -32,7 +36,9 @@ class VISAInstrument:
         if self._address:
             try:
                 self._instr = rm.open_resource(self._address)
-                print(f"Connected instrument: {self.instr.query('*IDN?')}{self.instr}")
+                self.instr.read_termination  = '\n'
+                self.instr.write_termination = '\n'
+                print(f"Connected instrument: {self.idn} {self.instr}")
             except:
                 print("Failed to connect the instrument. Check if the intended VISA address is listed below:")
                 print(rm.list_resources())
