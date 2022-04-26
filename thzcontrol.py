@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from instruments import Multimeter, KBD101
+from instruments import Lockin, Multimeter, MultimeterOld, KBD101
 from experiment import Prefs, Measurement
 
 
@@ -23,10 +23,13 @@ if __name__ == '__main__':
     measu_frame = ttk.Frame(app)
     
     # Instruments:
-    multimeter = Multimeter("USB0::0x0957::0x0607::MY47027685::INSTR")
-    delay_line = KBD101("28250877")
-    multimeter.create_widget(instr_frame, 0)
-    delay_line.create_widget(instr_frame, 1)
+    lockin      = Lockin()
+    thermometer = Multimeter("Thermometer")
+    #multimeter = MultimeterOld("USB0::0x0957::0x0607::MY47027685::INSTR")
+    delay_line  = KBD101("28250877")
+    lockin.create_widget(instr_frame, 0)
+    thermometer.create_widget(instr_frame, 1)
+    delay_line.create_widget(instr_frame, 2)
     
     # Preferences:
     prefs = Prefs(prefs_frame)

@@ -4,7 +4,6 @@ from pandas import DataFrame, read_csv
 import os
 
 
-
 class Prefs:
     PRESET_FOLDER = './preset'
     PRESET_FILE   = 'prefs.txt'

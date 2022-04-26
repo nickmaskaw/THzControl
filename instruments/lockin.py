@@ -27,8 +27,8 @@ class Lockin(VISAInstrument):
         1000: 10
     }
 
-    def __init__(self):
-        super().__init__(name="Lock-in")
+    def __init__(self, name="Lock-in"):
+        super().__init__(name)
 
     def get_XY(self):
         X, Y = self.instr.query('SNAP?1,2').split(',')
