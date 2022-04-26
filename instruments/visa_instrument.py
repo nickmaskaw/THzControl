@@ -38,22 +38,21 @@ class VISAInstrument:
                 self._instr = rm.open_resource(self._address)
                 self.instr.read_termination  = '\n'
                 self.instr.write_termination = '\n'
-                print(f"Connected instrument: {self.idn} | {self.instr}")
+                print(f"Connected {self.name}: {self.idn} ({self.instr})")
             except:
-                print("Failed to connect the instrument. Check if the intended VISA address is listed below:")
-                print(rm.list_resources())
+                print(f"Failed to connect the {self.name}")
         else:
-            print("Failed to connect the instrument. You must specify a VISA address within:")
+            print(f"Failed to connect the {self.name}. You must specify a VISA address within:")
             print(rm.list_resources())
 
     def disconnect(self):
         try:
             self.instr.close()
-            print(f"Disconnected instrument: {self.instr}")
+            print(f"Disconnected the {self.name} ({self.instr})")
             self._instr   = None
             self._address = None
         except:
-            print(f"Failed to disconnect: {self.instr}")
+            print(f"Failed to disconnect the {self.name} ({self.instr})")
 
 class InstrWidget:
     def __init__(self, frame, row, instrument, address_list=[]):

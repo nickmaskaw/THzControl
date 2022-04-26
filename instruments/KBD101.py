@@ -98,7 +98,7 @@ class KBD101:
                 self._set_btn['state'] = 'normal'
                 self._button_get()
             info = self.get_info()
-            print("Connected delay line: {} (serial no. {})  |  Stage: {} (serial no. {})".format(*tuple(info.values())))
+            print("Connected delay line: {} (serial no. {}) | Stage: {} (serial no. {})".format(*tuple(info.values())))
         except:
             print("Failed to connect the delay line")
             
