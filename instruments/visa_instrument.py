@@ -52,9 +52,15 @@ class VISAInstrument:
 class InstrWidget:
     def __init__(self, frame, instrument, address_list=[]):
         self._instrument = instrument
-        self._label = ttk.Label(frame, text=f"{self._instrument.name}:", width=10)
-        self._combo = ttk.Combobox(frame, values=address_list, width=40)
+
+        self._label  = ttk.Label(frame, text=f"{self._instrument.name}:", width=10)
+        self._combo  = ttk.Combobox(frame, values=address_list, width=40)
         self._button = ttk.Button(frame, text="Connect", command=self._button_clicked)
+
+        options = {'sticky': tk.W, 'padx': 5, 'pady': 5}
+        self._label.grid(row=0, column=0, **options)
+        self._combo.grid(row=0, column=1, **options)
+        self._button.grid(row=0, column=2, **options)
 
     def _button_clicked(self):
         if self._button['text'] == "Connect":
