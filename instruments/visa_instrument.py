@@ -38,7 +38,7 @@ class VISAInstrument:
                 self._instr = rm.open_resource(self._address)
                 self.instr.read_termination  = '\n'
                 self.instr.write_termination = '\n'
-                print(f"Connected instrument: {self.idn} {self.instr}")
+                print(f"Connected instrument: {self.idn} | {self.instr}")
             except:
                 print("Failed to connect the instrument. Check if the intended VISA address is listed below:")
                 print(rm.list_resources())
