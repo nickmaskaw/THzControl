@@ -22,7 +22,7 @@ class VISAInstrument:
     def create_widget(self, frame):
         rm = pv.ResourceManager()
         self._widget = InstrWidget(frame, self, rm.list_resources())
-        print(f"{self._instr} widget successfully created")
+        print(f"{self.name} widget successfully created")
 
     def set_address(self, address):
         self._address = address
@@ -32,7 +32,7 @@ class VISAInstrument:
         if self._address:
             try:
                 self._instr = rm.open_resource(self._address)
-                print(f"Connected instrument: {self._instr.query('*IDN?')}{self._instr}")
+                print(f"Connected instrument: {self.instr.query('*IDN?')}{self.instr}")
             except:
                 print("Failed to connect the instrument. Check if the intended VISA address is listed below:")
                 print(rm.list_resources())
@@ -42,12 +42,12 @@ class VISAInstrument:
 
     def disconnect(self):
         try:
-            self._instr.close()
-            print(f"Disconnected instrument: {self._instr}")
+            self.instr.close()
+            print(f"Disconnected instrument: {self.instr}")
             self._instr   = None
             self._address = None
         except:
-            print(f"Failed to disconnect: {self._instr}")
+            print(f"Failed to disconnect: {self.instr}")
 
 class InstrWidget:
     def __init__(self, frame, instrument, address_list=[]):
