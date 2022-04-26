@@ -8,7 +8,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        self.geometry('1180x540+0+0')
+        self.geometry('1180x700+0+0')
         self.title('THzControl')
         self.resizable(False, False)
         self.tk.call('tk', 'scaling', 2.0)
@@ -24,8 +24,8 @@ if __name__ == '__main__':
     
     # Instruments:
     lockin      = Lockin()
-    thermometer = Multimeter("Thermometer")
-    #multimeter = MultimeterOld("USB0::0x0957::0x0607::MY47027685::INSTR")
+    thermometer = Multimeter("Therm 1")
+    multimeter = MultimeterOld("USB0::0x0957::0x0607::MY47027685::INSTR")
     delay_line  = KBD101("28250877")
     lockin.create_widget(instr_frame, 0)
     thermometer.create_widget(instr_frame, 1)

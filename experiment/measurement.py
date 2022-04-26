@@ -7,10 +7,8 @@ import os
 import time as tm
 
 
-
 class Constants:
     C = 299_792_458e3/1e12  # mm/ps (~0.3mm/ps)
-
 
 
 class Convert:
@@ -28,7 +26,6 @@ class Convert:
     def sig_to_raw(signal, sensitivity):
         raw_fullscale = 10  # V
         return signal * (raw_fullscale / sensitivity)
-
 
 
 class Measurement:
