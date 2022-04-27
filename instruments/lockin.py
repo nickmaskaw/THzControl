@@ -2,29 +2,42 @@ from instruments import VISAInstrument
 
 
 class Lockin(VISAInstrument):
-    # first col: values in nA (or mV); second col: lock-in parameters
+    # first col: lock-in index; second col: values in nA (or mV)
     SENS_LIST = {
-        1:    17,
-        2:    18,
-        5:    19,
-        10:   20,
-        20:   21,
-        50:   22,
-        100:  23,
-        200:  24,
-        500:  25,
-        1000: 26
+        '17': 1,
+        '18': 2,
+        '19': 5,
+        '20': 10,
+        '21': 20,
+        '22': 50,
+        '23': 100,
+        '24': 200,
+        '25': 500,
+        '26': 1000
     }
 
-    # first col: values in ms; second col: lock-in parameters
+    # first col: lock-in index; second col: values in s
     TCONS_LIST = {
-        1:    4,
-        3:    5,
-        10:   6,
-        30:   7,
-        100:  8,
-        300:  9,
-        1000: 10
+        '0':  10e-6,
+        '1':  30e-6,
+        '2':  100e-6,
+        '3':  300e-6,
+        '4':  1e-3,
+        '5':  3e-3,
+        '6':  10e-3,
+        '7':  30e-3,
+        '8':  100e-3,
+        '9':  300e-3,
+        '10': 1,
+        '11': 3,
+        '12': 10,
+        '13': 30,
+        '14': 100,
+        '15': 300,
+        '16': 1e3,
+        '17': 3e3,
+        '18': 10e3,
+        '19': 30e3
     }
 
     def __init__(self, name="Lock-in"):
@@ -50,8 +63,11 @@ class Lockin(VISAInstrument):
         freq = self.instr.query('FREQ?')
         return float(freq)
 
-    def set_sens(self, i):
-        self.instr.write(f'SENS {i}')
+    def get_sens(self):
+        i = self.instr.query('SENS?')
+        return self.SENS_LIST[i]
 
-    def set_tcons(self, i):
-        self.instr.write(f'OFLT {i}')
+    def get_tcons(self):
+        i = self.instr.query('OFLT?')
+        return self.TCONS_LIST[i]
+    

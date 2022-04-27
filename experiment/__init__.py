@@ -1,3 +1,3 @@
 from .prefs import Prefs
-from .measurement import Measurement
+from .measurement_old import Measurement
 from .data import Data

@@ -53,8 +53,7 @@ class Prefs:
             
     def save(self, folder, file):
         self.table.to_csv(f"{folder}/{file}___info.txt", sep='\t')
-            
-    
+
     def _widget_create(self, container):
         self.start   = Entry(container, 'Start', 'mm', 75, mark="*")
         self.end     = Entry(container, 'End', 'mm', 70, mark="*")
