@@ -7,14 +7,17 @@ class Parameters:
     PRESET_FOLDER = './preset'
     PRESET_FILE   = 'preferences'
 
-    def __init__(self):
-        self._user   = UserParams()
-        self._label = LabelParams()
-        self._hidden = HiddenParams()
-        self._widget = None
+    def __init__(self, lock_in):
+        self._lock_in = lock_in
+        self._user    = UserParams()
+        self._label   = LabelParams()
+        self._hidden  = HiddenParams()
+        self._widget  = None
 
         self._load_preset()
 
+    @property
+    def lock_in(self): return self._lock_in
     @property
     def user(self): return self._user
     @property
@@ -72,13 +75,20 @@ class ParametersWidget:
     def _set_parameters(self):
         for key in self._parameters.user.dic:
             self.__dict__[key].to_param()
+
         for key in self._parameters.label.dic:
             self.__dict__[key].to_param()
-        print("Parameters are set")
+        try:
+            self._parameters.hidden.sens.set_value(self._parameters.lock_in.get_sens())
+            self._parameters.hidden.tcons.set_value(self._parameters.lock_in.get_tcons())
+            self._parameters.hidden.freq.set_value(self._parameters.lock_in.get_freq())
+        finally:
+            print("Parameters are set")
 
     def _setbtn_clicked(self):
         self._set_parameters()
         self._parameters.save(self._parameters.PRESET_FOLDER, self._parameters.PRESET_FILE)
+        print(self._parameters.table)
 
 
 class Param:

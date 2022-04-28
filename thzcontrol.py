@@ -40,7 +40,7 @@ if __name__ == '__main__':
     delay_line.create_widget(instr_frame, 2)
     
     # Parameters:
-    parameters = Parameters()
+    parameters = Parameters(lock_in)
 
     # Parameters widget:
     parameters.create_widget(param_frame)
