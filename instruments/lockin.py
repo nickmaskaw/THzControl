@@ -64,8 +64,9 @@ class Lockin(VISAInstrument):
         return float(freq)
 
     def get_sens(self):
+        """ Returns 0 if sensitivity out of range """
         i = self.instr.query('SENS?')
-        return self.SENS_LIST[i]
+        return self.SENS_LIST[i] if i in self.SENS_LIST else 0
 
     def get_tcons(self):
         i = self.instr.query('OFLT?')

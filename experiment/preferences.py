@@ -65,3 +65,4 @@ class Entry(Item):
 
 class Combo(Item):
     def __init__(self, frame, name, unit, box_width):
+        pass

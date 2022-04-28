@@ -3,13 +3,9 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class Config:
-    pass
-
-
 class MeasurementControl:
     DATA_FOLDER = './output/data'
-    CONF_FOLDER = './output/config'
+    INFO_FOLDER = './output/info'
     PLOT_FOLDER = './output/plot'
 
     def __init__(self, lock_in, thermometer, delay_line):
@@ -18,7 +14,7 @@ class MeasurementControl:
         self._delay_line  = delay_line
 
     def _check_output_folder(self):
-        folders = [self.DATA_FOLDER, self.CONF_FOLDER, self.PLOT_FOLDER]
+        folders = [self.DATA_FOLDER, self.INFO_FOLDER, self.PLOT_FOLDER]
         for folder in folders:
             if not os.path.exists(folder): os.makedirs(folder)
         print("Checked measurement output folders")
