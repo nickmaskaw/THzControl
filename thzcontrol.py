@@ -1,14 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 from instruments import Lockin, Cernox, KBD101
-from experiment import Parameters
+from experiment import Parameters, Measurement
 
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        self.geometry('1180x700+0+0')
+        self.geometry('1160x480+0+0')
         self.title('THzControl')
         self.resizable(False, False)
         self.tk.call('tk', 'scaling', 2.0)
@@ -28,6 +28,7 @@ if __name__ == '__main__':
     # Frames:
     instr_frame = ttk.Frame(app)
     param_frame = ttk.Frame(app)
+    measu_frame = ttk.Frame(app)
     
     # Instruments:
     lock_in     = Lockin()
@@ -41,15 +42,18 @@ if __name__ == '__main__':
     
     # Parameters:
     parameters = Parameters(lock_in)
-
     # Parameters widget:
     parameters.create_widget(param_frame)
    
     # Measurement:
+    measurement = Measurement(lock_in, thermometer, delay_line)
+    # Measurement widget:
+    measurement.create_widget(measu_frame)
     
     # Grid frames:
-    instr_frame.grid(row=0, column=0, sticky='W', pady=10)
-    param_frame.grid(row=1, column=0, sticky='W', pady=10)
+    instr_frame.grid(row=0, column=0, sticky=tk.W, pady=10)
+    param_frame.grid(row=1, column=0, sticky=tk.W, pady=10)
+    measu_frame.grid(row=2, column=0, sticky=tk.W, pady=10)
     
     app.set_mainloop()
     

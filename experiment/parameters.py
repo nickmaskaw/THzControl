@@ -52,7 +52,7 @@ class ParametersWidget:
 
         user_width    = 10
         label_width_1 = 10
-        label_width_2 = 40
+        label_width_2 = 41
 
         for i, key in enumerate(parameters.user.dic):
             if key not in ['fast']:
@@ -72,6 +72,9 @@ class ParametersWidget:
         self.setbtn = ttk.Button(frame, text="Set parameters", command=self._setbtn_clicked)
         self.setbtn.grid(row=4, column=2, sticky=tk.W)
 
+    @property
+    def is_set(self): return not (self.setbtn['text'] == "Set parameters")
+
     def _set_parameters(self):
         for key in self._parameters.user.dic:
             self.__dict__[key].to_param()
@@ -82,13 +85,40 @@ class ParametersWidget:
             self._parameters.hidden.sens.set_value(self._parameters.lock_in.get_sens())
             self._parameters.hidden.tcons.set_value(self._parameters.lock_in.get_tcons())
             self._parameters.hidden.freq.set_value(self._parameters.lock_in.get_freq())
+        except:
+            print("No lock-in is connected, could not retrieve sensitivity, time constant and chop freq")
         finally:
             print("Parameters are set")
 
     def _setbtn_clicked(self):
+        if not self.is_set:
+            self.set()
+        else:
+            self.unset()
+
+    def set(self):
+        self.disable()
         self._set_parameters()
         self._parameters.save(self._parameters.PRESET_FOLDER, self._parameters.PRESET_FILE)
+        self.setbtn['text'] = 'Unset parameters'
         print(self._parameters.table)
+
+    def unset(self):
+        self.enable()
+        self.setbtn['text'] = 'Set parameters'
+        print("Unsetted parameters")
+
+    def enable(self):
+        for key in self._parameters.user.dic:
+            self.__dict__[key].enable()
+        for key in self._parameters.label.dic:
+            self.__dict__[key].enable()
+
+    def disable(self):
+        for key in self._parameters.user.dic:
+            self.__dict__[key].disable()
+        for key in self._parameters.label.dic:
+            self.__dict__[key].disable()
 
 
 class Param:
@@ -150,7 +180,7 @@ class LabelParams(ParamSet):
     def __init__(self):
         self.setup  = Param('Setup no.')
         self.hum    = Param('Humidity', '%')
-        self.temp   = Param('Temperature', 'K')
+        self.temp   = Param('Temp', 'K')
         self.emit   = Param('Emmiter')
         self.detec  = Param('Detector')
         self.pols   = Param('Polarizers')
@@ -188,6 +218,12 @@ class Entry:
     def to_param(self):
         self._param.set_value(self.value)
 
+    def enable(self):
+        self._valuebox['state'] = 'normal'
+
+    def disable(self):
+        self._valuebox['state'] = 'disabled'
+
 
 class CheckButton:
     def __init__(self, frame, param):
@@ -205,3 +241,9 @@ class CheckButton:
 
     def to_param(self):
         self._param.set_value(self.value)
+
+    def enable(self):
+        self._checkbtn['state'] = 'normal'
+
+    def disable(self):
+        self._checkbtn['state'] = 'disabled'
