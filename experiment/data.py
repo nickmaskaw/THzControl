@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.fft import fft, fftfreq
 
+
 class Data:
     def __init__(self, file, dt, time_range=(None, None), delayline_zero=None):
         self._raw_data = self._read_file(file)

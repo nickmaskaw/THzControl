@@ -34,7 +34,7 @@ class Parameters:
 
     def create_widget(self, frame):
         self._widget = ParametersWidget(frame, self)
-        print(f"Parameters widget successfully created")
+        print("Parameters widget successfully created")
 
     def save(self, folder, file):
         self.table.to_csv(f'{self.PRESET_FOLDER}/{self.PRESET_FILE}', sep='\t')
@@ -59,7 +59,10 @@ class ParametersWidget:
                 self.__dict__[key] = Entry(frame, parameters.user.dic[key], user_width)
             else:
                 self.__dict__[key] = CheckButton(frame, parameters.user.dic[key])
-            self.__dict__[key].container.grid(row=i, column=0, sticky=tk.W)
+            if key not in ['ymax']:
+                self.__dict__[key].container.grid(row=i, column=0, sticky=tk.W)
+            else:
+                self.__dict__[key].container.grid(row=3, column=2, sticky=tk.W)
 
         for i, key in enumerate(parameters.label.dic):
             special_keys = ['pols', 'sample', 'obs']
@@ -70,7 +73,7 @@ class ParametersWidget:
             self.__dict__[key].container.grid(row=row, column=column, sticky=tk.W)
 
         self.setbtn = ttk.Button(frame, text="Set parameters", command=self._setbtn_clicked)
-        self.setbtn.grid(row=4, column=2, sticky=tk.W)
+        self.setbtn.grid(row=5, column=2, sticky=tk.W)
 
     @property
     def is_set(self): return not (self.setbtn['text'] == "Set parameters")
@@ -92,11 +95,11 @@ class ParametersWidget:
 
     def _setbtn_clicked(self):
         if not self.is_set:
-            self.set()
+            self.set_()
         else:
             self.unset()
 
-    def set(self):
+    def set_(self):
         self.disable()
         self._set_parameters()
         self._parameters.save(self._parameters.PRESET_FOLDER, self._parameters.PRESET_FILE)
@@ -174,6 +177,7 @@ class UserParams(ParamSet):
         self.step  = Param('Step size', 'mm')
         self.wait  = Param('Wait time', 'tcons')
         self.fast  = Param('Fast scan')
+        self.ymax  = Param('Plot ymax', 'nA')
 
 
 class LabelParams(ParamSet):
@@ -181,7 +185,7 @@ class LabelParams(ParamSet):
         self.setup  = Param('Setup no.')
         self.hum    = Param('Humidity', '%')
         self.temp   = Param('Temp', 'K')
-        self.emit   = Param('Emmiter')
+        self.emit   = Param('Emitter')
         self.detec  = Param('Detector')
         self.pols   = Param('Polarizers')
         self.sample = Param('Sample')

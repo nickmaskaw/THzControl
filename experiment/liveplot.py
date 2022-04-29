@@ -41,3 +41,4 @@ class LivePlot:
         self._ax.plot(x_data, y_data)
         self._ax.set_xlim([self._start, self._end])
         self._fig.show()
+        plt.tight_layout()

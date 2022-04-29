@@ -25,6 +25,7 @@ class KBD101:
         self._widget         = False
         self._connected      = False
         
+    @property
     def is_connected(self): return self._connected
         
     def create_widget(self, frame, row):

@@ -22,6 +22,8 @@ class VISAInstrument:
     def idn(self):
         if self.instr: return self.instr.query('*IDN?')
         else:          return "No instrument"
+    @property
+    def is_connected(self): return True if self.instr else False
 
     def create_widget(self, frame, row):
         rm = pv.ResourceManager()

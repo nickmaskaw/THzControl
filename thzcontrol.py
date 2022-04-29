@@ -46,7 +46,7 @@ if __name__ == '__main__':
     parameters.create_widget(param_frame)
    
     # Measurement:
-    measurement = Measurement(lock_in, thermometer, delay_line)
+    measurement = Measurement(parameters, lock_in, thermometer, delay_line)
     # Measurement widget:
     measurement.create_widget(measu_frame)
     
