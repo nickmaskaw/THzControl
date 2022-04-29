@@ -37,8 +37,8 @@ class Parameters:
         print("Parameters widget successfully created")
 
     def save(self, folder, file):
-        self.table.to_csv(f'{self.PRESET_FOLDER}/{self.PRESET_FILE}', sep='\t')
-        print(f"Saved parameters to {self.PRESET_FOLDER}/{self.PRESET_FILE}")
+        self.table.to_csv(f'{folder}/{file}', sep='\t')
+        print(f"Saved parameters to {folder}/{file}")
 
     def _load_preset(self):
         self.user.load(self.PRESET_FOLDER, self.PRESET_FILE)
