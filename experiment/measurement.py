@@ -64,7 +64,7 @@ class Measurement:
         wait  = float(self.parameters.user.wait.value)
         fast  = self.parameters.user.fast.value
         tcons = float(self.parameters.hidden.tcons.value)
-        ymax  = float(self.parameters.user.ymax.value)
+        ymax  = float(self.parameters.user.ymax.value) * 1e-9  # convert to A
         
         plot  = LivePlot(start, end, -ymax, ymax)
         
@@ -126,8 +126,7 @@ class Measurement:
         data = self._dataframe(pos, dpos, X, Y, R)
         fig  = plot.fig
         self._save(data, fig)
-        
-        
+
     def _save(self, data, fig):
         filename = self._filename()
         
@@ -138,8 +137,9 @@ class Measurement:
         message = f"Saved data as {filename}"
         self.widget.set_message(message)
         print(message)
-        
-    def _dataframe(self, pos, dpos, X, Y, R):
+
+    @staticmethod
+    def _dataframe(pos, dpos, X, Y, R):
         t = Convert.mm_to_ps(2 * (pos[0] - pos))
         return pd.DataFrame({'t': t, 'X': X, 'Y': Y, 'R': R, 'pos': pos, 'dpos': dpos})
     
@@ -152,7 +152,6 @@ class Measurement:
         sample    = self.parameters.label.sample.value
         obs       = self.parameters.label.obs.value
         return f"{timestamp}_{start}to{end}mm_{fast}_{setup}_{sample}_{obs}"
-        
 
 
 class MeasurementWidget:
