@@ -3,8 +3,7 @@
 *.txt
 *.bat
 
-!prefs.txt
-
 # Folders
 output/
+preset/
 .idea/

@@ -1,9 +1,12 @@
+import os
 import pyvisa as pv
 import tkinter as tk
 from tkinter import ttk
 
 
 class VISAInstrument:
+    PRESET_FOLDER = './preset'
+    
     def __init__(self, name):
         self._name    = name
         self._address = None
@@ -24,11 +27,26 @@ class VISAInstrument:
         else:          return "No instrument"
     @property
     def is_connected(self): return True if self.instr else False
+    
+    def _save_preset(self):
+        if not os.path.exists(self.PRESET_FOLDER): os.makedirs(self.PRESET_FOLDER)
+        with open(f'{self.PRESET_FOLDER}/{self.name}_address', 'w') as file:
+            file.write(self.address)
+        print(f"Saved {self.name} address to preset folder")
+        
+    def _load_preset(self):
+        try:
+            with open(f'{self.PRESET_FOLDER}/{self.name}_address') as file:
+                self.widget.combo_set(file.readlines()[0])
+            print(f"Loaded {self.name} address preset")
+        except:
+            print(f"No {self.name} address found in preset folder")
 
     def create_widget(self, frame, row):
         rm = pv.ResourceManager()
         self._widget = InstrWidget(frame, row, self, rm.list_resources())
         print(f"{self.name} widget successfully created")
+        self._load_preset()
 
     def set_address(self, address):
         self._address = address
@@ -41,6 +59,7 @@ class VISAInstrument:
                 self.instr.read_termination  = '\n'
                 self.instr.write_termination = '\n'
                 print(f"Connected {self.name}: {self.idn} ({self.instr})")
+                self._save_preset()
             except:
                 print(f"Failed to connect the {self.name}")
         else:
@@ -55,6 +74,7 @@ class VISAInstrument:
             self._address = None
         except:
             print(f"Failed to disconnect the {self.name} ({self.instr})")
+
 
 class InstrWidget:
     def __init__(self, frame, row, instrument, address_list=[]):
@@ -81,3 +101,6 @@ class InstrWidget:
             if not self._instrument.instr:
                 self._combo['state'] = 'normal'
                 self._button['text'] = "Connect"
+                
+    def combo_set(self, value):
+        self._combo.set(value)

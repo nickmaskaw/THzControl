@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import tkinter as tk
 from tkinter import ttk
@@ -39,11 +40,15 @@ class Parameters:
     def save(self, folder, file):
         self.table.to_csv(f'{folder}/{file}', sep='\t')
         print(f"Saved parameters to {folder}/{file}")
+        
+    def save_preset(self):
+        if not os.path.exists(self.PRESET_FOLDER): os.makedirs(self.PRESET_FOLDER)
+        self.save(self.PRESET_FOLDER, self.PRESET_FILE)
 
     def _load_preset(self):
         self.user.load(self.PRESET_FOLDER, self.PRESET_FILE)
         self.label.load(self.PRESET_FOLDER, self.PRESET_FILE)
-        print("Loaded preset parameters")
+        print("Loaded parameters preset")
 
 
 class ParametersWidget:
@@ -102,7 +107,7 @@ class ParametersWidget:
     def set_(self):
         self.disable()
         self._set_parameters()
-        self._parameters.save(self._parameters.PRESET_FOLDER, self._parameters.PRESET_FILE)
+        self._parameters.save_preset()
         self.setbtn['text'] = 'Unset parameters'
         print(self._parameters.table)
 

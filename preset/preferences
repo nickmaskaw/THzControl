@@ -4,8 +4,8 @@ end	End	mm	31
 vel	Velocity	mmps	0.1
 step	Step size	mm	0.005
 wait	Wait time	tcons	1
-ymax	Plot ymax	nA	
 fast	Fast scan		False
+ymax	Plot ymax	nA	1.5
 setup	Setup no.		S2200P
 hum	Humidity	%	50
 temp	Temp	K	300
