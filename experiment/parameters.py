@@ -46,9 +46,12 @@ class Parameters:
         self.save(self.PRESET_FOLDER, self.PRESET_FILE)
 
     def _load_preset(self):
-        self.user.load(self.PRESET_FOLDER, self.PRESET_FILE)
-        self.label.load(self.PRESET_FOLDER, self.PRESET_FILE)
-        print("Loaded parameters preset")
+        try:
+            self.user.load(self.PRESET_FOLDER, self.PRESET_FILE)
+            self.label.load(self.PRESET_FOLDER, self.PRESET_FILE)
+            print("Loaded parameters preset")
+        except:
+            print("No parameters found in preset folder")
 
 
 class ParametersWidget:
