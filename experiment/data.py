@@ -4,32 +4,48 @@ from scipy.fft import fft, fftfreq
 
 
 class Data:
-    def __init__(self, file, dt, time_range=(None, None), delayline_zero=None):
-        self._raw_data = self._read_file(file)
-        self._time_dom = self._interp_data(self._raw_data, dt)
-        self._freq_dom = self._compute_fft(self._time_dom, dt)
-        
+    def __init__(self, file, dt, max_=None, pow_=None):
+        self._file = file
+        self._dt   = dt
+        self._max  = max_
+        self._pow  = pow_
+        self._raw_data = self.read_file(file)
+        self._time_dom = self.interp_data(self._raw_data, dt, max_=max_, pow_=pow_)
+        self._freq_dom = self.compute_fft(self._time_dom, dt)
+
+    def __repr__(self):
+        return f"Data from {self.file}, cut @ t={self._max} and interpolated to 2^{self._pow} points with dt={self._dt}"
+
+    @property
+    def file(self): return self._file
     @property
     def time_dom(self): return self._time_dom
     @property
     def freq_dom(self): return self._freq_dom
-    
-    def _read_file(self, file):
+
+    @staticmethod
+    def read_file(file):
         return pd.read_table(file)
-    
-    def _interp_data(self, raw_data, dt):
-        t = np.arange(min(raw_data['t'].values), max(raw_data['t'].values), dt)
-        y = np.interp(t, raw_data['t'].values, raw_data['y'].values)
-        return pd.DataFrame({'t': t, 'y': y})
-    
-    def _compute_fft(self, data, dt):
+
+    @staticmethod
+    def interp_data(raw_data, dt, max_=None, pow_=None):
+        dcut = raw_data.loc[raw_data['t'] <= max_] if max_ else raw_data
+        tmin = min(dcut['t'])
+        tmax = tmin + (dt * 2**pow_) if pow_ else max(dcut['t'])
+
+        t = np.arange(tmin, tmax, dt)
+        E = np.interp(t, dcut['t'], dcut['X'], right=0)
+        return pd.DataFrame({'t': t, 'E': E})
+
+    @staticmethod
+    def compute_fft(data, dt):
         t = data['t'].values
-        y = data['y'].values
+        E = data['E'].values
         N = len(t)
-        yt    = np.conj(fft(y)[:N//2])
-        ampl  = (2/N) * np.abs(yt)
-        phase = np.angle(yt)
+        Efft  = np.conj(fft(E)[:N//2])
+        ampl  = (2/N) * np.abs(Efft)
+        phase = np.angle(Efft)
         freq  = fftfreq(N, dt)[:N//2]
-        return pd.DataFrame({'freq': freq, 'ampl': ampl, 'phase': phase, 'fft': yt})
+        return pd.DataFrame({'freq': freq, 'ampl': ampl, 'phase': phase, 'fft': Efft})
     
     
