@@ -19,6 +19,8 @@ class Data:
     @property
     def file(self): return self._file
     @property
+    def raw(self): return self._raw_data
+    @property
     def time_dom(self): return self._time_dom
     @property
     def freq_dom(self): return self._freq_dom
@@ -34,7 +36,7 @@ class Data:
         tmax = tmin + (dt * 2**pow_) if pow_ else max(dcut['t'])
 
         t = np.arange(tmin, tmax, dt)
-        E = np.interp(t, dcut['t'], dcut['X'], right=0)
+        E = np.interp(t, dcut['t'], dcut['X'], right=0) * 1e9  # Convert A to nA
         return pd.DataFrame({'t': t, 'E': E})
 
     @staticmethod
