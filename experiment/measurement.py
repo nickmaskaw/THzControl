@@ -123,7 +123,7 @@ class Measurement:
         self.delay_line.stop_polling()
         plot.final(pos, X)
         
-        data = self._dataframe(pos, dpos, X, Y, R)
+        data = self._dataframe(start, pos, dpos, X, Y, R)
         fig  = plot.fig
         self._save(data, fig)
 
@@ -139,8 +139,8 @@ class Measurement:
         print(message)
 
     @staticmethod
-    def _dataframe(pos, dpos, X, Y, R):
-        t = Convert.mm_to_ps(2 * (pos[0] - pos))
+    def _dataframe(start, pos, dpos, X, Y, R):
+        t = Convert.mm_to_ps(2 * (start - pos))
         return pd.DataFrame({'t': t, 'X': X, 'Y': Y, 'R': R, 'pos': pos, 'dpos': dpos})
     
     def _filename(self):
