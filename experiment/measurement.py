@@ -121,7 +121,7 @@ class Measurement:
         
         #######################################################################
         self.delay_line.stop_polling()
-        plot.final(pos, X)
+        plot.final(pos, X * 1e9)  # Change signal units from A to nA
         
         data = self._dataframe(start, pos, dpos, X, Y, R)
         fig  = plot.fig
