@@ -55,6 +55,11 @@ class Measurement:
     def create_widget(self, frame):
         self._widget = MeasurementWidget(frame, self)
         print("Measurement widget successfully created")
+
+    def _get_point(self, get_Y=False, get_R=False):
+        X, Y = self.lock_in.get_XY() if get_Y else self.lock_in.get_X(), np.nan
+        R = self.thermometer.get_fres() if get_R else np.nan
+        return X, Y, R
         
     def start(self):
         start = float(self.parameters.user.start.value)
@@ -65,6 +70,8 @@ class Measurement:
         fast  = self.parameters.user.fast.value
         tcons = float(self.parameters.hidden.tcons.value)
         ymax  = float(self.parameters.user.ymax.value) * 1e-9  # convert to A
+        get_Y = self.parameters.user.get_Y.value
+        get_R = self.parameters.user.get_R.value
         
         plot  = LivePlot(start, end, -ymax, ymax)
         
@@ -88,9 +95,8 @@ class Measurement:
             for i in range(N):
                 tm.sleep(dt - (tm.time() - t0) % dt)
                 
-                d[i]       = self.delay_line.get_pos()
-                X[i], Y[i] = self.lock_in.get_XY()
-                R[i]       = self.thermometer.get_fres()
+                d[i] = self.delay_line.get_pos()
+                X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
                 plot.update(d, X)
                 if d[i] <= end: break
@@ -112,8 +118,7 @@ class Measurement:
                 tm.sleep(wait * tcons)
                 
                 d[i]       = self.delay_line.get_pos()
-                X[i], Y[i] = self.lock_in.get_XY()
-                R[i]       = self.thermometer.get_fres()
+                X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
                 plot.update(d, X)
                 

@@ -8,7 +8,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        self.geometry('1160x480+0+0')
+        self.geometry('1160x510+0+0')
         self.title('THzControl')
         self.resizable(False, False)
         self.tk.call('tk', 'scaling', 2.0)
@@ -51,9 +51,9 @@ if __name__ == '__main__':
     measurement.create_widget(measu_frame)
     
     # Grid frames:
-    instr_frame.grid(row=0, column=0, sticky=tk.W, pady=10)
-    param_frame.grid(row=1, column=0, sticky=tk.W, pady=10)
-    measu_frame.grid(row=2, column=0, sticky=tk.W, pady=10)
+    instr_frame.grid(row=0, column=0, sticky=tk.W, pady=20)
+    param_frame.grid(row=1, column=0, sticky=tk.W, pady=0)
+    measu_frame.grid(row=2, column=0, sticky=tk.W, pady=0)
     
     app.set_mainloop()
     

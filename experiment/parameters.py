@@ -63,14 +63,15 @@ class ParametersWidget:
         label_width_2 = 41
 
         for i, key in enumerate(parameters.user.dic):
-            if key not in ['fast']:
+            if key not in ['fast', 'get_Y', 'get_R']:
                 self.__dict__[key] = Entry(frame, parameters.user.dic[key], user_width)
             else:
                 self.__dict__[key] = CheckButton(frame, parameters.user.dic[key])
-            if key not in ['ymax']:
+
+            if key not in ['fast', 'get_Y', 'get_R']:
                 self.__dict__[key].container.grid(row=i, column=0, sticky=tk.W)
             else:
-                self.__dict__[key].container.grid(row=3, column=2, sticky=tk.W)
+                self.__dict__[key].container.grid(row=i-3, column=2, sticky=tk.W)
 
         for i, key in enumerate(parameters.label.dic):
             special_keys = ['pols', 'sample', 'obs']
@@ -80,11 +81,11 @@ class ParametersWidget:
             self.__dict__[key] = Entry(frame, parameters.label.dic[key], label_width)
             self.__dict__[key].container.grid(row=row, column=column, sticky=tk.W)
 
-        self.setbtn = ttk.Button(frame, text="Set parameters", command=self._setbtn_clicked)
-        self.setbtn.grid(row=5, column=2, sticky=tk.W)
+        self.setbtn = ttk.Button(frame, text="Set", command=self._setbtn_clicked)
+        self.setbtn.grid(row=6, column=0, padx=5, pady=5, sticky=tk.W)
 
     @property
-    def is_set(self): return not (self.setbtn['text'] == "Set parameters")
+    def is_set(self): return not (self.setbtn['text'] == "Set")
 
     def _set_parameters(self):
         for key in self._parameters.user.dic:
@@ -111,12 +112,12 @@ class ParametersWidget:
         self.disable()
         self._set_parameters()
         self._parameters.save_preset()
-        self.setbtn['text'] = 'Unset parameters'
+        self.setbtn['text'] = 'Unset'
         print(self._parameters.table)
 
     def unset(self):
         self.enable()
-        self.setbtn['text'] = 'Set parameters'
+        self.setbtn['text'] = 'Set'
         print("Unsetted parameters")
 
     def enable(self):
@@ -184,8 +185,10 @@ class UserParams(ParamSet):
         self.vel   = Param('Velocity', 'mmps')
         self.step  = Param('Step size', 'mm')
         self.wait  = Param('Wait time', 'tcons')
+        self.ymax = Param('Plot ymax', 'nA')
         self.fast  = Param('Fast scan')
-        self.ymax  = Param('Plot ymax', 'nA')
+        self.get_Y = Param('Get Y')
+        self.get_R = Param('Get R')
 
 
 class LabelParams(ParamSet):
