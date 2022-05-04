@@ -96,11 +96,7 @@ class Measurement:
                 tm.sleep(dt - (tm.time() - t0) % dt)
                 
                 d[i] = self.delay_line.get_pos()
-                X, Y, R = self._get_point(get_Y, get_R)
-
-                X[i] = X
-                Y[i] = Y
-                R[i] = R
+                X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
                 plot.update(d, X)
                 if d[i] <= end: break
@@ -122,11 +118,7 @@ class Measurement:
                 tm.sleep(wait * tcons)
                 
                 d[i]       = self.delay_line.get_pos()
-                X, Y, R = self._get_point(get_Y, get_R)
-
-                X[i] = X
-                Y[i] = Y
-                R[i] = R
+                X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
                 plot.update(d, X)
                 
