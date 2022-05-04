@@ -57,7 +57,7 @@ class Measurement:
         print("Measurement widget successfully created")
 
     def _get_point(self, get_Y=False, get_R=False):
-        X, Y = self.lock_in.get_XY() if get_Y else self.lock_in.get_X(), np.nan
+        X, Y = self.lock_in.get_XY() if get_Y else (self.lock_in.get_X(), np.nan)
         R = self.thermometer.get_fres() if get_R else np.nan
         return X, Y, R
         
