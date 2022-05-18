@@ -78,7 +78,7 @@ class Measurement:
         self.delay_line.return_to(start)
         self.delay_line.start_polling(10)
         self.delay_line.set_vel(vel)
-        tm.sleep(3 * tcons)                # Wait 3 time constants before start
+        tm.sleep(10 * tcons)              # Wait 10 time constants before start
 
         # Continuous measurements #############################################
         if fast:
