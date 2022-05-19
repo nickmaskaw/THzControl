@@ -80,6 +80,8 @@ class Measurement:
         self.delay_line.set_vel(vel)
         tm.sleep(10 * tcons)              # Wait 10 time constants before start
 
+        R0 = self.thermometer.get_fres()  # Temp save of T before start
+
         # Continuous measurements #############################################
         if fast:
             dt = .1
@@ -126,8 +128,15 @@ class Measurement:
             dpos  = (d - pos)
         
         #######################################################################
+
+        R1 = self.thermometer.get_fres()  # Temp save of T after end
+
         self.delay_line.stop_polling()
         plot.final(pos, X * 1e9)  # Change signal units from A to nA
+
+        if not get_R:
+            R[0] = R0
+            R[i] = R1
         
         data = self._dataframe(start, pos, dpos, X, Y, R)
         fig  = plot.fig
