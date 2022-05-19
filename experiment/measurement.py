@@ -101,7 +101,7 @@ class Measurement:
                 d[i] = self.delay_line.get_pos()
                 X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
-                plot.update(d, X)
+                if i % 2 == 0: plot.update(d, X)  # Update every two points
                 if d[i] <= end: break
             
             pos, dpos = d, np.full(N, np.nan)
@@ -123,7 +123,7 @@ class Measurement:
                 d[i]       = self.delay_line.get_pos()
                 X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
-                plot.update(d, X)
+                if i % 2 == 0: plot.update(d, X)  # Update every two points
                 
             dpos  = (d - pos)
         

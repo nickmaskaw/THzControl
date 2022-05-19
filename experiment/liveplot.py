@@ -25,6 +25,7 @@ class LivePlot:
         self._fig.canvas.draw()
         self._ax.set_xlim([self._start, self._end])
         self._ax.set_ylim([self._ymin, self._ymax])
+        plt.tight_layout()
 
     def update(self, x_data, y_data):
         self._line.set_xdata(x_data)
