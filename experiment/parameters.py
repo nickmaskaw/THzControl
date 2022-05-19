@@ -82,7 +82,7 @@ class ParametersWidget:
             self.__dict__[key].container.grid(row=row, column=column, sticky=tk.W)
 
         self.setbtn = ttk.Button(frame, text="Set", command=self._setbtn_clicked)
-        self.setbtn.grid(row=6, column=0, padx=5, pady=5, sticky=tk.W)
+        self.setbtn.grid(row=7, column=0, padx=5, pady=5, sticky=tk.W)
 
     @property
     def is_set(self): return not (self.setbtn['text'] == "Set")
@@ -185,7 +185,8 @@ class UserParams(ParamSet):
         self.vel   = Param('Velocity', 'mmps')
         self.step  = Param('Step size', 'mm')
         self.wait  = Param('Wait time', 'tcons')
-        self.ymax = Param('Plot ymax', 'nA')
+        self.ymax  = Param('Plot ymax', 'nA')
+        self.ptsup = Param('Pts update')
         self.fast  = Param('Fast scan')
         self.get_Y = Param('Get Y')
         self.get_R = Param('Get R')

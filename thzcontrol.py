@@ -8,7 +8,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        self.geometry('1160x510+0+0')
+        self.geometry('1160x550+0+0')
         self.title('THzControl')
         self.resizable(False, False)
         self.tk.call('tk', 'scaling', 2.0)

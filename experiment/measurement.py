@@ -70,6 +70,7 @@ class Measurement:
         fast  = self.parameters.user.fast.value
         tcons = float(self.parameters.hidden.tcons.value)
         ymax  = float(self.parameters.user.ymax.value) * 1e-9  # convert to A
+        ptsup = int(self.parameters.user.ptsup.value)
         get_Y = self.parameters.user.get_Y.value
         get_R = self.parameters.user.get_R.value
         
@@ -101,7 +102,7 @@ class Measurement:
                 d[i] = self.delay_line.get_pos()
                 X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
-                if i % 2 == 0: plot.update(d, X)  # Update every two points
+                if i % ptsup == 0: plot.update(d, X)  # Update every ptsup points
                 if d[i] <= end: break
             
             pos, dpos = d, np.full(N, np.nan)
@@ -123,7 +124,7 @@ class Measurement:
                 d[i]       = self.delay_line.get_pos()
                 X[i], Y[i], R[i] = self._get_point(get_Y, get_R)
                 
-                if i % 2 == 0: plot.update(d, X)  # Update every two points
+                if i % ptsup == 0: plot.update(d, X)  # Update every ptsup points
                 
             dpos  = (d - pos)
         
